@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "245069386682",
+    "project_id": "graygreenapp",
+    "storage_bucket": "graygreenapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245069386682:android:92feda2b17b0636ebdc383",
+        "android_client_info": {
+          "package_name": "Com.LamaAfaf.GrayGreen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "245069386682-ros62hgee7vi8p22fuo64am22g7gf442.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "Com.LamaAfaf.GrayGreen",
+            "certificate_hash": "9c5b9a73bca491653384edc129f44cde6be0345c"
+          }
+        },
+        {
+          "client_id": "245069386682-d5v3n6b7lgj53np3mp37g4chihgslnmt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL395lDegei_H14a3gR8f1WVJn0NLwUdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "245069386682-d5v3n6b7lgj53np3mp37g4chihgslnmt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "245069386682-75g9ck2c6rtdtg4pnd34r3r3m3bi8m6c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.LamaAfaf.GrayGreen"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

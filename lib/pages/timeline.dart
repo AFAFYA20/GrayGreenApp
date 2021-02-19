@@ -15,22 +15,34 @@ class _TimelineState extends State<Timeline> {
   @override
   //fetching data from firestore
   void initState() {
-    getUsers();
     //getUserById();
-
+    //createUser();
+    //updateUser();
+    deletUeser();
     super.initState();
   }
 
-  getUsers() async {
-    final QuerySnapshot snapshot = await usersRef.getDocuments();
-    //getDocument is function to get data of each collection
-    //usersRef.getDocuments().then((QuerySnapshot snapshot) {
-      snapshot.documents.forEach((DocumentSnapshot doc) {
-        print(doc.data);
-        print(doc.documentID);
-        print(doc.exists);
-      });
-   // });
+  createUser() {
+    usersRef
+        .document("asdfasfd")
+        .setData({"username": "sara", "postcount": 0, "isAdmin": "false"});
+  }
+
+  updateUser() async {
+    final doc = await usersRef.document("3b9xAlnUDz9cXSzOCDKj").get();
+    //To make sure it's exists
+    if (doc.exists) {
+      doc.reference
+          .updateData({"username": "noor", "postcount": 0, "isAdmin": "false"});
+    }
+  }
+
+  deletUeser() async {
+    final DocumentSnapshot doc =
+        await usersRef.document("3b9xAlnUDz9cXSzOCDKj").get();
+    if (doc.exists) {
+      doc.reference.delete();
+    }
   }
   /* getUserById() async{
    final String id = "3b9xAlnUDz9cXSzOCDKj";
@@ -46,7 +58,22 @@ class _TimelineState extends State<Timeline> {
   Widget build(context) {
     return Scaffold(
       appBar: header(context, isAppTitle: true),
-      body: linearProgress(),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: usersRef.snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return circularProgress();
+          }
+          final List<Text> children = snapshot.data.documents
+              .map((doc) => Text(doc['username']))
+              .toList();
+          return Container(
+            child: ListView(
+              children: children,
+            ),
+          );
+        },
+      ),
     );
   }
 }

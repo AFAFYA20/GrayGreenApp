@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:graygreen/pages/create_account.dart';
+
 
 import 'activity_feed.dart';
 import 'profile.dart';
@@ -9,6 +12,8 @@ import 'timeline.dart';
 import 'upload.dart';
 
 final GoogleSignIn googleSignIn = GoogleSignIn();
+final usersRef = Firestore.instance.collection('users');
+final DateTime timestamp = DateTime.now();
 
 class Home extends StatefulWidget {
   @override
@@ -38,13 +43,35 @@ class _HomeState extends State<Home> {
 
   handleSignIn(GoogleSignInAccount account) {
     if (account != null) {
-      print('User signed in ! $account');
+      createUserInfirestore();
       setState(() {
         isAuth = true;
       });
     } else {
       setState(() {
         isAuth = false;
+      });
+    }
+  }
+
+  createUserInfirestore() async {
+    //1)check if user exitsts in users collection in database(according to thier id)
+    final GoogleSignInAccount user = googleSignIn.currentUser;
+    final DocumentSnapshot doc = await usersRef.document(user.id).get();
+    //2) if the user doesnt't exitsts, take them to create account page
+    if (!doc.exists) {
+      final username = await Navigator.push(
+          context, MaterialPageRoute(builder: (context) => CreateAccount()));
+
+      //3) get username from create account,use it to make new user document in user collection
+      usersRef.document(user.id).setData({
+        "id": user.id,
+        "username": username,
+        "photoUrl": user.photoUrl,
+        "email": user.email,
+        "disPlayName": user.displayName,
+        "bio": "",
+        "timeStamp": timestamp
       });
     }
   }
@@ -82,7 +109,11 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: PageView(
         children: <Widget>[
-          Timeline(),
+          // Timeline(),
+          RaisedButton(
+            child: Text('logout'),
+            onPressed: logout,
+          ),
           ActivityFeed(),
           Upload(),
           Search(),
@@ -130,7 +161,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-            gradient: LinearGradient(
+          gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
           colors: [

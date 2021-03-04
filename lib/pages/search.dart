@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,31 +11,49 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  TextEditingController SearchController = TextEditingController();
-  Future<QuerySnapshot> searchResultFuture;
+  Future<QuerySnapshot> searchresultsfuture;
 
   handleSearch(String query) {
     Future<QuerySnapshot> users = usersRef
-        .where("username", isGreaterThanOrEqualTo: query)
+        .where("displayName", isGreaterThanOrEqualTo: query)
         .getDocuments();
     setState(() {
-      searchResultFuture = users;
+      searchresultsfuture = users;
     });
   }
 
-  clearSearch() {
-    SearchController.clear();
+  Container bulidNoContent() {
+    return Container(
+      child: Center(
+        child: ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            SvgPicture.asset(
+              'assets/images/search.svg',
+              height: 300.0,
+            ),
+            Text(
+              "Find cases",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w600,
+                fontSize: 60.0,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
-  AppBar bulidSearchField() {
+  AppBar buildSearchField() {
     return AppBar(
       backgroundColor: Colors.white,
       title: TextFormField(
-        //contect controller with the text form feild
-        controller: SearchController,
         decoration: InputDecoration(
           hintText: "Search for a case in your city..",
-          //gray backround
           filled: true,
           prefixIcon: Icon(
             Icons.account_box,
@@ -44,7 +61,7 @@ class _SearchState extends State<Search> {
           ),
           suffixIcon: IconButton(
             icon: Icon(Icons.clear),
-            onPressed: clearSearch,
+            onPressed: () => print('cleared'),
           ),
         ),
         onFieldSubmitted: handleSearch,
@@ -52,46 +69,20 @@ class _SearchState extends State<Search> {
     );
   }
 
-  bulidNoContent() {
-    return Container(
-      child: Center(
-        //ListView resize the kepord
-        child: ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            SvgPicture.asset('assets/images/search.svg', height: 300.0),
-            Text(
-              "Find Users",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w600,
-                fontSize: 60.0,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  bulidSearchResults() {
+  buildSearchResults() {
     return FutureBuilder(
-        future: searchResultFuture,
+        future: searchresultsfuture,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return circularProgress();
           }
-          List<UserResult> searchResults = [];
+          List<Text> searchReslults = [];
           snapshot.data.documents.forEach((doc) {
             User user = User.fromDocument(doc);
-            UserResult searchResult = UserResult(user);
-            //Username
-            searchResults.add(searchResult);
+            searchReslults.add(Text(user.username));
           });
           return ListView(
-            children: searchResults,
+            children: searchReslults,
           );
         });
   }
@@ -99,48 +90,18 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: bulidSearchField(),
+      //backgroundColor: Theme.of(context).primaryColor.withOpacity(0.8),
+      appBar: buildSearchField(),
       body:
-          searchResultFuture == null ? bulidNoContent() : bulidSearchResults(),
+          searchresultsfuture == null ? bulidNoContent() : buildSearchResults(),
     );
   }
 }
 
 class UserResult extends StatelessWidget {
-  final User user;
-  UserResult(this.user);
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Theme.of(context).primaryColor.withOpacity(0.7),
-        child: Column(
-          children: <Widget>[
-            //when clik on gaiven result we want to taken to profile page
-            GestureDetector(
-              onTap: () => print('tapped'),
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  backgroundImage: CachedNetworkImageProvider(user.photoUrl),
-                ),
-                title: Text(
-                  user.displayName,
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(
-                  user.username,
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-            //Divider to divie the results from next one if we have mulit results
-            Divider(
-              height: 2.0,
-              color: Colors.white54,
-            ),
-          ],
-        ));
+    return Text("User Result");
   }
 }
 

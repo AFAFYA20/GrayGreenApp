@@ -37,8 +37,6 @@ class _EntercountryState extends State<Entercountry> {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      SnackBar snackbar = SnackBar(content: Text("Welcom $username !"));
-      _scaffoldKey.currentState.showSnackBar(snackbar);
       Timer(Duration(seconds: 2), () {
         //Navigator.pop(context, username);
         Navigator.pop(context, country);

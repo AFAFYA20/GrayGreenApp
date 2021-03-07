@@ -21,7 +21,7 @@ class _ProfileState extends State<Profile> {
   //User currentUser;
   //  currentUser = User.fromDocument(doc);
 
-  String name = 'lma';
+  String name = 'lma'; //just for testing 
 
   Column bulidCountColumn(String label, int count) {
     return Column(

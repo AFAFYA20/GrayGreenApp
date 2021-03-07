@@ -18,6 +18,7 @@ import 'create_account.dart';
 final GoogleSignIn googleSignIn = GoogleSignIn();
 final usersRef = Firestore.instance.collection('users');
 final DateTime timestamp = DateTime.now();
+User currentUser;
 
 
 class Home extends StatefulWidget {
@@ -63,6 +64,7 @@ class _HomeState extends State<Home> {
     //1)check if user exitsts in users collection in database(according to thier id)
     final GoogleSignInAccount user = googleSignIn.currentUser;
     final DocumentSnapshot doc = await usersRef.document(user.id).get();
+    //currentUser=User.fromDocument(doc);
     //2) if the user doesnt't exitsts, take them to create account page
     if (!doc.exists) {
       final username = await Navigator.push(
@@ -82,6 +84,7 @@ class _HomeState extends State<Home> {
         "country": country ,
         "timeStamp": timestamp,
       });
+
     }
   }
 
@@ -115,6 +118,7 @@ class _HomeState extends State<Home> {
   }
 
   Scaffold buildAuthScreen() {
+    
     return Scaffold(
       body: PageView(
         children: <Widget>[
@@ -124,9 +128,9 @@ class _HomeState extends State<Home> {
             onPressed: logout,
           ),
           ActivityFeed(),
-          Upload(currentUser: currentUser),
+          Upload(currentUser: currentUser,),
           Search(),
-          Profile(),
+          Profile( profileid: currentUser?.id),
         ],
         controller: pageController,
         onPageChanged: onPageChanged,

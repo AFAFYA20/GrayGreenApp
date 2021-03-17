@@ -6,6 +6,8 @@ import 'package:graygreen/pages/home.dart';
 import 'package:graygreen/widgets/header.dart';
 import 'package:graygreen/widgets/progress.dart';
 import 'dart:developer';
+import 'package:provider/provider.dart';
+import '../current_user_model.dart';
 
 class Profile extends StatefulWidget {
   final String profileid;
@@ -18,10 +20,9 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  //User currentUser;
-  //  currentUser = User.fromDocument(doc);
 
-  String name = 'lma'; //just for testing 
+
+  String name = 'lma';
 
   Column bulidCountColumn(String label, int count) {
     return Column(
@@ -58,7 +59,7 @@ class _ProfileState extends State<Profile> {
         if (!snapshot.hasData) {
           return circularProgress();
         }
-        User user = User.fromDocument(snapshot.data);
+        AppUser user = AppUser.fromDocument(snapshot.data);
         return Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(
@@ -68,7 +69,7 @@ class _ProfileState extends State<Profile> {
                   CircleAvatar(
                     radius: 40.0,
                     backgroundColor: Colors.grey,
-                    backgroundImage: CachedNetworkImageProvider(user.photoUrl),
+                    backgroundImage: CachedNetworkImageProvider(user?.photoUrl),
                   ),
                   Expanded(
                     flex: 1,
@@ -98,7 +99,7 @@ class _ProfileState extends State<Profile> {
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(top: 12.0),
                 child: Text(
-                  currentUser.username == null ? currentUser.username : name,
+                  currentUser?.username??'',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0,
@@ -109,9 +110,7 @@ class _ProfileState extends State<Profile> {
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(top: 4.0),
                 child: Text(
-                  currentUser.displayName == null
-                      ? currentUser.displayName
-                      : name,
+                  currentUser?.displayName??'',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -121,7 +120,7 @@ class _ProfileState extends State<Profile> {
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(top: 2.0),
                 child: Text(
-                  currentUser.bio == null ? currentUser.bio : name,
+                  currentUser?.bio??'',
                 ),
               ),
             ],
@@ -133,6 +132,8 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser =  context.watch<CurrentUser>().user;
+    
     return Scaffold(
       appBar: header(context, titleText: "Profile"),
       body: ListView(
@@ -141,4 +142,3 @@ class _ProfileState extends State<Profile> {
     );
   }
 }
-

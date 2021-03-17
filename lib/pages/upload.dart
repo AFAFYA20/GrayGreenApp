@@ -2,11 +2,12 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:graygreen/models/user.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Upload extends StatefulWidget {
-  final User currentUser;
+  final AppUser currentUser;
   Upload({this.currentUser});
   @override
   _UploadState createState() => _UploadState();
@@ -14,6 +15,8 @@ class Upload extends StatefulWidget {
 
 class _UploadState extends State<Upload> {
   File file;
+  final locationConttroller = TextEditingController() ;
+  
 
   handelTakePhoto() async {
     Navigator.pop(context);
@@ -40,15 +43,15 @@ class _UploadState extends State<Upload> {
         context: parentContext,
         builder: (context) {
           return SimpleDialog(
-            title: Text("Create Post"),
+            title: Text("Publish a case"),
             children: <Widget>[
               SimpleDialogOption(
-                child: Text("Photo With Camera"),
-                onPressed: handelTakePhoto(),
+               child: Text("Photo With Camera"),
+                onPressed:(){ handelTakePhoto();},
               ),
-              SimpleDialogOption(
+             SimpleDialogOption(
                 child: Text("Image from Gallery"),
-                onPressed: handleChooseFromGallery(),
+               onPressed: (){ handleChooseFromGallery();},
               ),
               SimpleDialogOption(
                 child: Text("Cancel"),
@@ -58,6 +61,7 @@ class _UploadState extends State<Upload> {
           );
         });
   }
+
 
   Container buildSplashScreen() {
     return Container(
@@ -100,7 +104,7 @@ class _UploadState extends State<Upload> {
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: clearImage),
         title: Text(
-          "caption Post",
+          "Case Information",
           style: TextStyle(color: Colors.black),
         ),
         actions: [
@@ -140,14 +144,14 @@ class _UploadState extends State<Upload> {
           ),
           ListTile(
             leading: CircleAvatar(
-              backgroundImage:
-                  CachedNetworkImageProvider(widget.currentUser.photoUrl),
+              // backgroundImage:
+              //     CachedNetworkImageProvider(widget.currentUser.photoUrl),
             ),
             title: Container(
               width: 250.0,
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: "write a caption ....",
+                  hintText: "write a short description of the case",
                   border: InputBorder.none,
                 ),
               ),
@@ -156,7 +160,7 @@ class _UploadState extends State<Upload> {
           Divider(),
           ListTile(
             leading: Icon(
-              Icons.pin_drop,
+              Icons.call,
               color: Colors.green,
               size: 35.0,
             ),
@@ -164,8 +168,78 @@ class _UploadState extends State<Upload> {
               width: 250.0,
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: "Where was this photo taken?",
+                  hintText: "+966 502498417",
                   border: InputBorder.none,
+                ),
+              ),
+            ),
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(
+              Icons.calendar_today,
+              color: Colors.green,
+              size: 35.0,
+            ),
+            title: Container(
+              width: 250.0,
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: "which day to meet up?",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+          ),
+           Divider(),
+          ListTile(
+            leading: Icon(
+              Icons.timelapse,
+              color: Colors.green,
+              size: 35.0,
+            ),
+            title: Container(
+              width: 250.0,
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: "meeting start at 8:00am",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+          ),
+           ListTile(
+            leading: Icon(
+              Icons.timelapse,
+              color: Colors.white,
+              size: 35.0,
+            ),
+            title: Container(
+              width: 250.0,
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: "meeting end at 10:30am",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+          ),
+           Divider(),
+            ListTile(
+            
+            leading: Icon(
+              Icons.pin_drop,
+              color: Colors.green,
+              size: 35.0,
+            ),
+            title: Container(
+              width: 250.0,
+              child: TextField(
+                controller: locationConttroller,
+                decoration: InputDecoration(
+                  hintText: "Your city? ",
+                  border: InputBorder.none,
+                
                 ),
               ),
             ),
@@ -183,7 +257,7 @@ class _UploadState extends State<Upload> {
                 borderRadius: BorderRadius.circular(30.0),
               ),
               color: Colors.green,
-              onPressed: () => print('get user location'),
+              onPressed:(){ getUserLocation();},
               icon: Icon(
                 Icons.my_location,
                 color: Colors.white,
@@ -193,6 +267,16 @@ class _UploadState extends State<Upload> {
         ],
       ),
     );
+  }
+  getUserLocation() async {
+    Position position = await Geolocator().getCurrentPosition
+    ( desiredAccuracy: LocationAccuracy.high);
+    List<Placemark> placemarks = await Geolocator().placemarkFromCoordinates(position.latitude, position.longitude);
+    Placemark placemark = placemarks[0];
+    String formattedAddress = "${placemark.locality} ,${placemark.country}";
+    locationConttroller.text = formattedAddress;
+    
+
   }
 
   @override

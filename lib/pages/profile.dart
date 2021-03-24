@@ -1,3 +1,5 @@
+//import 'dart:js';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,7 @@ import 'package:provider/provider.dart';
 import '../current_user_model.dart';
 
 class Profile extends StatefulWidget {
-  final String profileid;
+  final String profileid ;
 
   Profile({this.profileid});
   //String name = usersRef;
@@ -52,9 +54,11 @@ class _ProfileState extends State<Profile> {
     return Text("Profile Button");
   }
 
-  buildProfileHeader() {
+  buildProfileHeader(currentUser) {
+    currentUser = context.read<CurrentUser>().user;
+    
     return FutureBuilder(
-      future: usersRef.document(widget.profileid).get(),
+      future: usersRef.document(currentUser.id).get(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return circularProgress();
@@ -69,7 +73,7 @@ class _ProfileState extends State<Profile> {
                   CircleAvatar(
                     radius: 40.0,
                     backgroundColor: Colors.grey,
-                    backgroundImage: CachedNetworkImageProvider(user?.photoUrl),
+                    backgroundImage: CachedNetworkImageProvider(currentUser?.photoUrl),
                   ),
                   Expanded(
                     flex: 1,
@@ -106,23 +110,23 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(top: 4.0),
-                child: Text(
-                  currentUser?.displayName??'',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(top: 2.0),
-                child: Text(
-                  currentUser?.bio??'',
-                ),
-              ),
+              // Container(
+              //   alignment: Alignment.centerLeft,
+              //   padding: EdgeInsets.only(top: 4.0),
+              //   child: Text(
+              //     currentUser?.displayName??'',
+              //     style: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              // ),
+              // Container(
+              //   alignment: Alignment.centerLeft,
+              //   padding: EdgeInsets.only(top: 2.0),
+              //   child: Text(
+              //     currentUser?.bio??'',
+              //   ),
+              // ),
             ],
           ),
         );
@@ -134,10 +138,15 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     final currentUser =  context.watch<CurrentUser>().user;
     
+    
+    
+    //var currentUser = Provider.of<CurrentUser>(context);
+    
+    
     return Scaffold(
       appBar: header(context, titleText: "Profile"),
       body: ListView(
-        children: <Widget>[buildProfileHeader()],
+        children: <Widget>[buildProfileHeader(currentUser)],
       ),
     );
   }

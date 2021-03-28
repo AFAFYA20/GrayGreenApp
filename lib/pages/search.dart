@@ -34,7 +34,7 @@ class _SearchState extends State<Search> {
         //contect controller with the text form feild
         controller: SearchController,
         decoration: InputDecoration(
-          hintText: "Search for a case in your city..",
+          hintText: "Search for publishers in your city..",
           //gray backround
           filled: true,
           prefixIcon: Icon(
@@ -58,18 +58,7 @@ class _SearchState extends State<Search> {
         child: ListView(
           shrinkWrap: true,
           children: <Widget>[
-            SvgPicture.asset('assets/images/search.svg', height: 300.0),
-            Text(
-              "Find Users",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                //grey
-                color: Colors.white,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w600,
-                fontSize: 60.0,
-              ),
-            ),
+            Icon(Icons.people,color: Colors.green, size: 150.0),
           ],
         ),
       ),
@@ -85,9 +74,8 @@ class _SearchState extends State<Search> {
           }
           List<UserResult> searchResults = [];
           snapshot.data.documents.forEach((doc) {
-            User user = User.fromDocument(doc);
+            AppUser user = AppUser.fromDocument(doc);
             UserResult searchResult = UserResult(user);
-            //Username
             searchResults.add(searchResult);
           });
           return ListView(
@@ -107,7 +95,7 @@ class _SearchState extends State<Search> {
 }
 
 class UserResult extends StatelessWidget {
-  final User user;
+  final AppUser user;
   UserResult(this.user);
 
   @override

@@ -7,6 +7,7 @@ class PostTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   // return Text("Post Tile");
     return GestureDetector(
      child: Image.network(post.mediaUrl),
     );

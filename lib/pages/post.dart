@@ -96,6 +96,9 @@ class _PostState extends State<Post> {
   final String mediaUrl;
   int likeCount;
   Map likes;
+  bool isLiked;
+  bool showheart=false;
+ // final String currentOnlineUser= currentUser.id ;
 
   _PostState({
     this.postId,
@@ -115,11 +118,14 @@ class _PostState extends State<Post> {
   buildPostHeader() {
     return FutureBuilder(
       future: usersRef.document(ownerId).get(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
+      builder: (context, datasnapshot) {
+        if (!datasnapshot.hasData) {
           return circularProgress();
         }
-        AppUser user = AppUser.fromDocument(snapshot.data);
+
+        AppUser user = AppUser.fromDocument(datasnapshot.data);
+      //  bool isPostOwner= currentOnlineUser == ownerId;
+
         return ListTile(
           leading: CircleAvatar(
             backgroundImage: CachedNetworkImageProvider(user.photoUrl),
@@ -148,7 +154,7 @@ class _PostState extends State<Post> {
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          cachedNetworkImage(mediaUrl),
+          Image.network(mediaUrl),
         ],
       ),
     );
@@ -164,9 +170,10 @@ class _PostState extends State<Post> {
              GestureDetector(
                onTap: () => print('liking post'),
                child: Icon(
-                 Icons.favorite_border,
+                  Icons.add ,
+               // isLiked? Icons.add : Icons.check,
                  size: 28.0,
-                 color: Colors.pink,
+                 color: Colors.green,
                ),
              ),
              Padding(padding: EdgeInsets.only(right: 20.0)),
@@ -186,12 +193,25 @@ class _PostState extends State<Post> {
              Container(
                margin: EdgeInsets.only(left: 20.0),
                child: Text(
-                 "$username",
+                 "$likeCount likes",
                  style: TextStyle(color: Colors.black,
                  fontWeight: FontWeight.bold,
                  ),
                ),
              )
+           ],
+         ),
+         Row(
+           crossAxisAlignment:  CrossAxisAlignment.start,
+           children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(left:20.0),
+              child: Text("$username", style: TextStyle( fontWeight: FontWeight.bold),),
+            ),
+            Expanded(
+              child: Text(description)
+            ),
+
            ],
          ),
 

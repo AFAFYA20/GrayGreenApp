@@ -1,10 +1,7 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:graygreen/models/user.dart';
-import 'package:graygreen/pages/current_user_model.dart';
-import 'package:graygreen/pages/current_user_model.dart';
 import 'package:graygreen/pages/edit_profile.dart';
 import 'package:graygreen/pages/home.dart';
 import 'package:graygreen/widgets/header.dart';
@@ -12,8 +9,9 @@ import 'package:graygreen/widgets/post.dart';
 import 'package:graygreen/widgets/post_tile.dart';
 import 'package:graygreen/widgets/progress.dart';
 import 'package:provider/provider.dart';
-import 'current_user_model.dart';
-import 'current_user_model.dart';
+import '../current_user_model.dart';
+
+
 
 class Profile extends StatefulWidget {
   final String profileid;
@@ -25,8 +23,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  // final String currentUserId = currentUser?.id;
-  bool Loding = false;
+  final String currentUserId = currentUser?.id;
+  bool Loading = false;
   int postCount = 0;
   List<Post> postsList = [];
   String postOriention = 'grid';
@@ -36,13 +34,13 @@ class _ProfileState extends State<Profile> {
     getProfilePosts(currentUser);
   }
 
-  buildProfileButton() {
+  buildProfileButton(currentUser) {
     //If you're vewing your own profile - should show the edit profile button
     bool isProfileOwner = currentUser.id == currentUser.id;
     if (isProfileOwner) {
       return buildButton(
         text: "Edit Profile",
-        performFunction: editUserProfile,
+     //   performFunction: editUserProfile(currentUser),
       );
     }
   }
@@ -75,12 +73,13 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  editUserProfile() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => EditProfile(currentUserId: currentUser.id)));
-  }
+  // editUserProfile(currentUser) {
+  //   currentUser = context.read<CurrentUser>().user;
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //           builder: (context) => EditProfile( currentUserId :currentUser.id)));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +136,7 @@ class _ProfileState extends State<Profile> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            buildProfileButton(),
+                            buildProfileButton(currentUser),
                           ],
                         ),
                       ],
@@ -182,7 +181,7 @@ class _ProfileState extends State<Profile> {
 
   buildProfilePosts(currentUser) {
     currentUser = context.read<CurrentUser>().user;
-    if (Loding) {
+    if (Loading) {
       return circularProgress();
     } else if (postsList?.isEmpty ?? '') {
       return Container(
@@ -228,8 +227,9 @@ class _ProfileState extends State<Profile> {
 
   getProfilePosts(currentUser) async {
     currentUser = context.read<CurrentUser>().user;
+  
     setState(() {
-      Loding = true;
+      Loading = true;
     });
     QuerySnapshot snapshot = await postsRef
         .document(currentUser.id)
@@ -238,7 +238,7 @@ class _ProfileState extends State<Profile> {
         .getDocuments();
 
     setState(() {
-      Loding = false;
+      Loading = false;
       postCount = snapshot.documents.length;
       postsList =
           snapshot.documents.map((doc) => Post.fromDocument(doc)).toList();

@@ -11,8 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:image/image.dart' as ImD;
-import 'current_user_model.dart';
+import 'package:image/image.dart' as ImD ;
+import '../current_user_model.dart';
 
 class Upload extends StatefulWidget {
   final AppUser gcurrentUser;
@@ -21,17 +21,18 @@ class Upload extends StatefulWidget {
   _UploadState createState() => _UploadState();
 }
 
-class _UploadState extends State<Upload>
-    with AutomaticKeepAliveClientMixin<Upload> {
+class _UploadState extends State<Upload> with AutomaticKeepAliveClientMixin<Upload> {
   File file;
   bool uploading = false;
   String postId = Uuid().v4();
-  final locationConttroller = TextEditingController();
-  final descConttroller = TextEditingController();
-  final phonecConttroller = TextEditingController();
-  final dayConttroller = TextEditingController();
-  final meetsConttroller = TextEditingController();
-  final meeteConttroller = TextEditingController();
+  final locationConttroller = TextEditingController() ;
+  final descConttroller = TextEditingController() ;
+  final phonecConttroller = TextEditingController() ;
+  final dayConttroller = TextEditingController() ;
+  final meetsConttroller = TextEditingController() ;
+  final meeteConttroller = TextEditingController() ;
+  
+  
 
   handelTakePhoto() async {
     Navigator.pop(context);
@@ -61,16 +62,12 @@ class _UploadState extends State<Upload>
             title: Text("Publish a case"),
             children: <Widget>[
               SimpleDialogOption(
-                child: Text("Photo With Camera"),
-                onPressed: () {
-                  handelTakePhoto();
-                },
+               child: Text("Photo With Camera"),
+                onPressed:(){ handelTakePhoto();},
               ),
-              SimpleDialogOption(
+             SimpleDialogOption(
                 child: Text("Image from Gallery"),
-                onPressed: () {
-                  handleChooseFromGallery();
-                },
+               onPressed: (){ handleChooseFromGallery();},
               ),
               SimpleDialogOption(
                 child: Text("Cancel"),
@@ -81,12 +78,13 @@ class _UploadState extends State<Upload>
         });
   }
 
+
   Container buildSplashScreen() {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(Icons.add_photo_alternate, color: Colors.grey, size: 200.0),
+          Icon(Icons.add_photo_alternate, color: Colors.grey, size:200.0),
           Padding(
             padding: EdgeInsets.only(top: 20.0),
             child: RaisedButton(
@@ -120,34 +118,26 @@ class _UploadState extends State<Upload>
       file = null;
     });
   }
-
-  compressingPhoto() async {
+  compressingPhoto() async{
     final tDirectory = await getTemporaryDirectory();
-    final path = tDirectory.path;
-    ImD.Image mImageFile = ImD.decodeImage(file.readAsBytesSync());
-    final compressedImageFile = File('$path/img_$postId.jpg')
-      ..writeAsBytesSync(ImD.encodeJpg(mImageFile, quality: 90));
+    final path = tDirectory.path ;
+    ImD.Image  mImageFile = ImD.decodeImage(file.readAsBytesSync());
+    final compressedImageFile= File ('$path/img_$postId.jpg')..writeAsBytesSync(ImD.encodeJpg(mImageFile, quality:60));
     setState(() {
       file = compressedImageFile;
     });
   }
 
-  controlUploadAndSave(currentUser) async {
+
+
+  controlUploadAndSave(currentUser)async{
     setState(() {
       uploading = true;
     });
     await compressingPhoto();
 
     String downloadUrl = await uploadPhoto(file);
-    savePostInfoToFireStore(
-        gcurrentUser: currentUser,
-        mediaUrl: downloadUrl,
-        locaion: locationConttroller.text,
-        description: descConttroller.text,
-        phonenumber: phonecConttroller.text,
-        dayToMeet: dayConttroller.text,
-        meetStart: meetsConttroller.text,
-        meetEnd: meeteConttroller.text);
+    savePostInfoToFireStore( gcurrentUser: currentUser, mediaUrl: downloadUrl, location: locationConttroller.text, description: descConttroller.text, phonenumber: phonecConttroller.text, daym: dayConttroller.text, stime: meetsConttroller.text, etime: meeteConttroller.text );
     locationConttroller.clear();
     descConttroller.clear();
     phonecConttroller.clear();
@@ -159,45 +149,35 @@ class _UploadState extends State<Upload>
       file = null;
       uploading = false;
       postId = Uuid().v4();
+
     });
   }
 
-  savePostInfoToFireStore(
-      {String mediaUrl,
-      String locaion,
-      String description,
-      String phonenumber,
-      String dayToMeet,
-      String meetStart,
-      String meetEnd,
-      AppUser gcurrentUser}) {
-    postsRef
-        .document(gcurrentUser.id)
-        .collection("usersPosts")
-        .document(postId)
-        .setData({
+
+  savePostInfoToFireStore({String mediaUrl, String location, String description, String phonenumber, String daym, String stime, String etime, AppUser gcurrentUser } ){
+    postsRef.document(gcurrentUser.id).collection("usersPosts").document(postId).setData({
       "postId": postId,
-      "owner": gcurrentUser.id,
+      "ownerId": gcurrentUser.id,
       "timestamp": timestamp,
-      "enroll": {},
+      "Likes": {},
       "username": gcurrentUser.username,
       "description": description,
-      "locaion": locaion,
+      "locaion": location,
       "mediaUrl": mediaUrl,
-      "phonenumber": phonenumber,
-      "dayToMeet": dayToMeet,
-      "meetStart": meetStart,
-      "meetEnd": meetEnd,
-    });
-  }
+      "phonenumber":phonenumber,
+      "daym": daym,
+      "stime": stime,
+      "etime": etime,
 
-  Future<String> uploadPhoto(mImageFile) async {
-    StorageUploadTask mstorageUploadTask =
-        storageReference.child("post_$postId.jpg ").putFile(mImageFile);
-    StorageTaskSnapshot storageTaskSnapshot =
-        await mstorageUploadTask.onComplete;
+    });
+
+  }
+  Future<String> uploadPhoto(mImageFile) async{
+    StorageUploadTask mstorageUploadTask = storageReference.child("post_$postId.jpg ").putFile(mImageFile);
+    StorageTaskSnapshot storageTaskSnapshot= await mstorageUploadTask.onComplete;
     String downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
-    return downloadUrl;
+    return downloadUrl ;
+    
   }
 
   Scaffold buildUploadForm(currentUser) {
@@ -207,15 +187,14 @@ class _UploadState extends State<Upload>
         backgroundColor: Colors.white70,
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: clearPostInfo),
+            onPressed: clearPostInfo ),
         title: Text(
           "Case Information",
           style: TextStyle(color: Colors.black),
         ),
         actions: [
           FlatButton(
-            onPressed:
-                uploading ? null : () => controlUploadAndSave(currentUser),
+            onPressed: uploading ? null : () => controlUploadAndSave(currentUser) ,
             child: Text(
               "share",
               style: TextStyle(
@@ -227,6 +206,7 @@ class _UploadState extends State<Upload>
         ],
       ),
       body: ListView(
+        
         children: <Widget>[
           uploading ? linearProgress() : Text("ttt"),
           Container(
@@ -251,7 +231,8 @@ class _UploadState extends State<Upload>
           ),
           ListTile(
             leading: CircleAvatar(
-              backgroundImage: CachedNetworkImageProvider(currentUser.photoUrl),
+            backgroundImage:
+              CachedNetworkImageProvider(currentUser.photoUrl),
             ),
             title: Container(
               width: 250.0,
@@ -300,7 +281,7 @@ class _UploadState extends State<Upload>
               ),
             ),
           ),
-          Divider(),
+           Divider(),
           ListTile(
             leading: Icon(
               Icons.timelapse,
@@ -318,7 +299,7 @@ class _UploadState extends State<Upload>
               ),
             ),
           ),
-          ListTile(
+           ListTile(
             leading: Icon(
               Icons.timelapse,
               color: Colors.white,
@@ -335,8 +316,9 @@ class _UploadState extends State<Upload>
               ),
             ),
           ),
-          Divider(),
-          ListTile(
+           Divider(),
+            ListTile(
+            
             leading: Icon(
               Icons.pin_drop,
               color: Colors.green,
@@ -349,6 +331,7 @@ class _UploadState extends State<Upload>
                 decoration: InputDecoration(
                   hintText: "Your city? ",
                   border: InputBorder.none,
+                
                 ),
               ),
             ),
@@ -366,9 +349,7 @@ class _UploadState extends State<Upload>
                 borderRadius: BorderRadius.circular(30.0),
               ),
               color: Colors.green,
-              onPressed: () {
-                getUserLocation();
-              },
+              onPressed:(){ getUserLocation();},
               icon: Icon(
                 Icons.my_location,
                 color: Colors.white,
@@ -379,21 +360,20 @@ class _UploadState extends State<Upload>
       ),
     );
   }
-
   getUserLocation() async {
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    List<Placemark> placemarks = await Geolocator()
-        .placemarkFromCoordinates(position.latitude, position.longitude);
+    Position position = await Geolocator().getCurrentPosition
+    ( desiredAccuracy: LocationAccuracy.high);
+    List<Placemark> placemarks = await Geolocator().placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark placemark = placemarks[0];
     String formattedAddress = "${placemark.locality} ,${placemark.country}";
     locationConttroller.text = formattedAddress;
-  }
+    
 
-  bool get wantKeepAlive => true;
+  }
+  bool get wantKeepAlive => true ;
   @override
   Widget build(BuildContext context) {
-    final currentUser = context.watch<CurrentUser>().user;
+    final currentUser =  context.watch<CurrentUser>().user;
 
     return file == null ? buildSplashScreen() : buildUploadForm(currentUser);
   }

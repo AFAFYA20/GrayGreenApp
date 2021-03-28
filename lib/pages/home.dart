@@ -21,7 +21,7 @@ import 'create_account.dart';
 final GoogleSignIn googleSignIn = GoogleSignIn();
 final usersRef = Firestore.instance.collection('users');
 final StorageReference storageReference = FirebaseStorage.instance.ref().child("Posts_Pictures");
-final postsRef = Firestore.instance.collection('pots');
+final postsRef = Firestore.instance.collection('posts');
 final DateTime timestamp = DateTime.now();
 AppUser currentUser;
 

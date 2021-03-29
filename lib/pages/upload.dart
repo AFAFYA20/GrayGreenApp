@@ -159,7 +159,7 @@ class _UploadState extends State<Upload> with AutomaticKeepAliveClientMixin<Uplo
       "postId": postId,
       "ownerId": gcurrentUser.id,
       "timestamp": timestamp,
-      "Likes": {},
+      "Enroll": {},
       "username": gcurrentUser.username,
       "description": description,
       "locaion": location,

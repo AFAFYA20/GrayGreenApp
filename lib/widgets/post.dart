@@ -213,7 +213,7 @@ class _PostState extends State<Post> {
           _buildButtonColumn(
             color,
             Icons.near_me,
-            location,
+            "location $location",
           ),
           _buildButtonColumn(color, Icons.calendar_today, daym),
           _buildButtonColumn(color, Icons.timelapse, 'From ' + stime),

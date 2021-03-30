@@ -21,16 +21,15 @@ After publishing the case in the application, users can voluntarily participate 
 - Activity Feed showing recent enrolls in the cases / (not finished yet).
 
 ## Screenshots
-![WhatsApp Image 2021-03-31 at 12 40 23 AM (1)](https://user-images.githubusercontent.com/59630667/113062627-b9ae0200-91bc-11eb-8b48-4df1d5285ea6.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 23 AM](https://user-images.githubusercontent.com/59630667/113062629-ba469880-91bc-11eb-89b7-eea7a5a3d7c5.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 22 AM (1)](https://user-images.githubusercontent.com/59630667/113062633-ba469880-91bc-11eb-83bb-0516f4dc8d43.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 22 AM](https://user-images.githubusercontent.com/59630667/113062636-badf2f00-91bc-11eb-830c-923028842023.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 21 AM (2)](https://user-images.githubusercontent.com/59630667/113062638-bb77c580-91bc-11eb-9797-2b6c2f256425.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 21 AM (1)](https://user-images.githubusercontent.com/59630667/113062640-bb77c580-91bc-11eb-985f-f5279f11a758.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 21 AM](https://user-images.githubusercontent.com/59630667/113062641-bc105c00-91bc-11eb-8a09-3e6259e2556e.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 20 AM](https://user-images.githubusercontent.com/59630667/113062644-bc105c00-91bc-11eb-8829-882c9803d2bf.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 24 AM](https://user-images.githubusercontent.com/59630667/113062645-bca8f280-91bc-11eb-82c7-1f07e27a2b5b.jpeg)
 
+![WhatsApp Image 2021-03-31 at 12 40 23 AM (1)](https://user-images.githubusercontent.com/59630667/113062733-e530ec80-91bc-11eb-98d3-0de9e1d3c654.jpeg)
+![WhatsApp Image 2021-03-31 at 12 40 23 AM](https://user-images.githubusercontent.com/59630667/113062736-e5c98300-91bc-11eb-9493-8428f7a077b9.jpeg)
+![WhatsApp Image 2021-03-31 at 12 40 22 AM (1)](https://user-images.githubusercontent.com/59630667/113062737-e6621980-91bc-11eb-95a6-412391bc0f39.jpeg)
+![WhatsApp Image 2021-03-31 at 12 40 22 AM](https://user-images.githubusercontent.com/59630667/113062738-e6621980-91bc-11eb-9b68-ba91e8ddd2e4.jpeg)
+![WhatsApp Image 2021-03-31 at 12 40 21 AM (2)](https://user-images.githubusercontent.com/59630667/113062739-e6fab000-91bc-11eb-9579-817de03cec1e.jpeg)
+![WhatsApp Image 2021-03-31 at 12 40 21 AM (1)](https://user-images.githubusercontent.com/59630667/113062744-e6fab000-91bc-11eb-8701-bf2883f14505.jpeg)
+![WhatsApp Image 2021-03-31 at 12 40 21 AM](https://user-images.githubusercontent.com/59630667/113062747-e7934680-91bc-11eb-9779-8fae6c23a83a.jpeg)
+![WhatsApp Image 2021-03-31 at 12 40 20 AM](https://user-images.githubusercontent.com/59630667/113062750-e82bdd00-91bc-11eb-80fa-a08cacd17a66.jpeg)
 
 
 ## Dependencies

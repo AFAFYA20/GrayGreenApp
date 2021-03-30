@@ -1,4 +1,3 @@
-![WhatsApp Image 2021-03-31 at 12 40 23 AM (1)](https://user-images.githubusercontent.com/59630667/113062612-b3b82100-91bc-11eb-9443-c473ad63f80d.jpeg)
 ## Gray/Green
 Gray/Green is a mobile-based application written in Flutter that enables users to publish a case of the polluted place they see with specifiying the 
 - city.
@@ -21,6 +20,7 @@ After publishing the case in the application, users can voluntarily participate 
 - Activity Feed showing recent enrolls in the cases / (not finished yet).
 
 ## Screenshots
+![WhatsApp Image 2021-03-31 at 12 40 23 AM (1)](https://user-images.githubusercontent.com/59630667/113062612-b3b82100-91bc-11eb-9443-c473ad63f80d.jpeg)
 
 
 ## Dependencies

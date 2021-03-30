@@ -23,23 +23,23 @@ After publishing the case in the application, users can voluntarily participate 
 
 
 ## Dependencies
-Flutter
-Firestore
-firebase storage
-Image Picker
-Google Sign In
-Firebase Auth
-Dart Image
-Path Provider
-Font Awesome
-Dart Async
-Flutter Shared Preferences
-Cached Network Image
-timeago
-flutter svg
-geolocator
-firebase auth
-firebase messaging
+- Flutter
+- Firestore
+- firebase storage
+- Image Picker
+- Google Sign In
+- Firebase Auth
+- Dart Image
+- Path Provider
+- Font Awesome
+- Dart Async
+- Flutter Shared Preferences
+- Cached Network Image
+- timeago
+- flutter svg
+- geolocator
+- firebase auth
+- firebase messaging
 
 ## Getting 
 1. Setup Flutter

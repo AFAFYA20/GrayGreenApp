@@ -7,10 +7,10 @@ Gray/Green is a mobile-based application written in Flutter that enables users t
 - And publish the case.
 After publishing the case in the application, users can voluntarily participate cleaning the specified place according to their city. The user can publish a case or volunteer in one of the cases.
 
-##Demo
+## Demo
 
 
-##Features
+## Features
 - Custom photo feed based on who you follow (using firebase cloud functions).
    - Post photo posts from camera or gallery.
 - Volunter in the one or many cases via the casees posts.
@@ -19,11 +19,11 @@ After publishing the case in the application, users can voluntarily participate 
 - Profile Page.
 - Activity Feed showing recent enrolls in the cases / (not finished yet).
 
-##Screenshots
+## Screenshots
 
 
 
-##Dependencies
+## Dependencies
 Flutter
 Firestore
 firebase storage
@@ -42,7 +42,7 @@ geolocator
 firebase auth
 firebase messaging
 
-##Getting 
+## Getting 
 1. Setup Flutter
 
 2. Clone the repo
@@ -93,10 +93,15 @@ Firestore Plugin
 https://pub.dartlang.org/packages/cloud_firestore
 
 
-What's Next?
- Notificaitons for Enrolls, follows, edit profile.
- Improve Caching of Profiles, Images, Etc.
- Custom Camera Implementation
- Firebase Security Rules
- Delete Posts
- Clean up code
+## What's Next?
+ - Notificaitons for Enrolls, follows, edit profile.
+ - Improve Caching of Profiles, Images, Etc.
+ - Enable sharing the cases via Twitter, WhatsApp and Instagram.
+ - 1.0 Case publisher will be able to specify the number of volunteers needed in the (case info) so the 
+   users shall voluntarily participate until the required number is reached.
+ - 1.1 Once it's completed, the application shall sends a notification with the necessary instructions that should be followed at the time of cleaning the place.
+ - Limiting the spread of any violation case by reporting it via the (Report) button.
+ - Custom Camera Implementation
+ - Firebase Security Rules
+ - Delete Posts
+ - Clean up code

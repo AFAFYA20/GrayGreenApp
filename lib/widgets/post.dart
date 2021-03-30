@@ -5,7 +5,6 @@ import 'package:graygreen/models/user.dart';
 import 'package:graygreen/pages/home.dart';
 import 'package:graygreen/widgets/custom_image.dart';
 import 'package:graygreen/widgets/progress.dart';
-import 'package:provider/provider.dart';
 
 class Post extends StatefulWidget {
   final String postId;
@@ -18,7 +17,7 @@ class Post extends StatefulWidget {
   final String stime;
   final String etime;
   final String mediaUrl;
-  final dynamic enroll;
+  final dynamic Enroll;
 
   Post({
     this.postId,
@@ -31,7 +30,7 @@ class Post extends StatefulWidget {
     this.stime,
     this.etime,
     this.mediaUrl,
-    this.enroll,
+    this.Enroll,
   });
 
   factory Post.fromDocument(DocumentSnapshot doc) {
@@ -46,16 +45,16 @@ class Post extends StatefulWidget {
       stime: doc['stime'],
       etime: doc['etime'],
       mediaUrl: doc['mediaUrl'],
-      enroll: doc['enroll'],
+      Enroll: doc['Enroll'],
     );
   }
 
-  int getEnrollCount(enroll) {
-    if (enroll == null) {
+  int getEnrollCount(Enroll) {
+    if (Enroll == null) {
       return 0;
     }
     int count = 0;
-    enroll.values.forEach((val) {
+    Enroll.values.forEach((val) {
       if (val == true) {
         count += 1;
       }
@@ -75,8 +74,8 @@ class Post extends StatefulWidget {
         stime: this.stime,
         etime: this.etime,
         mediaUrl: this.mediaUrl,
-        enroll: this.enroll,
-        EnrollCount: getEnrollCount(this.enroll),
+        Enroll: this.Enroll,
+        EnrollCount: getEnrollCount(this.Enroll),
       );
 }
 
@@ -92,10 +91,11 @@ class _PostState extends State<Post> {
   final String etime;
   final String mediaUrl;
   int EnrollCount;
-  Map enroll;
-  bool isLiked;
+  Map Enroll;
+  bool isEnroll;
   bool showheart = false;
-  // final String currentOnlineUser= currentUser.id ;
+  final String currentUserId = currentUser?.id;
+  DocumentReference EnrollRef;
 
   _PostState({
     this.postId,
@@ -108,11 +108,49 @@ class _PostState extends State<Post> {
     this.stime,
     this.etime,
     this.mediaUrl,
-    this.enroll,
+    this.Enroll,
     this.EnrollCount,
   });
-  // String Showlocation = location;
+
+  handelEnroll() {
+    bool _isEnroll = Enroll[currentUserId] == true;
+    if (_isEnroll) {
+      postsRef
+          .document(ownerId)
+          .collection('usersPosts')
+          .document(postId)
+          .updateData({'Enroll.$currentUserId': false});
+      setState(() {
+        EnrollCount -= 1;
+        isEnroll = false;
+        Enroll[currentUserId] = false;
+      });
+    } else if (!_isEnroll) {
+      postsRef
+          .document(ownerId)
+          .collection('usersPosts')
+          .document(postId)
+          .updateData({'Enroll.$currentUserId': true});
+      setState(() {
+        EnrollCount += 1;
+        isEnroll = true;
+        Enroll[currentUserId] = true;
+      });
+    }
+  }
+
+  buildEnroll() {
+    return GestureDetector(
+      onDoubleTap: () => print('Enroll'),
+      // child: Stack(
+      //   alignment: Alignment.center,
+      //   children: <Widget>[Image.network(mediaUrl)],
+      // ),
+    );
+  }
+
   buildPostHeader() {
+    buildEnroll();
     return FutureBuilder(
       future: usersRef.document(ownerId).get(),
       builder: (context, datasnapshot) {
@@ -133,7 +171,7 @@ class _PostState extends State<Post> {
               child: Text(user.username,
                   style: TextStyle(
                     color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w300,
                   ))),
           subtitle: Text(location),
           trailing: IconButton(
@@ -153,13 +191,15 @@ class _PostState extends State<Post> {
           children: <Widget>[
             Padding(padding: EdgeInsets.only(top: 40.0, left: 20.0)),
             GestureDetector(
-              onTap: () => print(' Enroll post'),
+              onTap: handelEnroll,
               child: Icon(
-                Icons.check_box_outline_blank,
-                // isLiked? Icons.add : Icons.check,
+                isEnroll ? Icons.check_box : Icons.add,
                 size: 28.0,
                 color: Colors.green,
               ),
+              // onPressed: () {
+              //   //postsRef;
+              // },
             ),
           ],
         ),
@@ -169,9 +209,9 @@ class _PostState extends State<Post> {
               margin: EdgeInsets.only(left: 20.0),
               padding: const EdgeInsets.only(bottom: 8),
               child: Text(
-                "Volunteer Now $EnrollCount",
+                "Clik here to volunteer with $EnrollCount",
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w300,
                 ),
               ),
             ),
@@ -193,7 +233,7 @@ class _PostState extends State<Post> {
             label,
             style: TextStyle(
               fontSize: 12,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.normal,
               color: color,
             ),
           ),
@@ -209,13 +249,8 @@ class _PostState extends State<Post> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildButtonColumn(color, Icons.call, phonenumber),
-          _buildButtonColumn(
-            color,
-            Icons.near_me,
-            "location $location",
-          ),
           _buildButtonColumn(color, Icons.calendar_today, daym),
+          _buildButtonColumn(color, Icons.call, phonenumber),
           _buildButtonColumn(color, Icons.timelapse, 'From ' + stime),
           _buildButtonColumn(color, Icons.timelapse, 'To ' + etime),
         ],
@@ -228,6 +263,7 @@ class _PostState extends State<Post> {
         softWrap: true,
       ),
     );
+    isEnroll = (Enroll[currentUserId] == true);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

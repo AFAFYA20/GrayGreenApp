@@ -41,7 +41,8 @@ After publishing the case in the application, users can voluntarily participate 
 - firebase auth
 - firebase messaging
 
-## Getting 
+## Getting started 
+
 1. Setup Flutter
 
 2. Clone the repo

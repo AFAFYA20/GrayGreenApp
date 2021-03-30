@@ -22,15 +22,6 @@ After publishing the case in the application, users can voluntarily participate 
 
 ## Screenshots
 
-![WhatsApp Image 2021-03-31 at 12 40 23 AM (1)](https://user-images.githubusercontent.com/59630667/113062733-e530ec80-91bc-11eb-98d3-0de9e1d3c654.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 23 AM](https://user-images.githubusercontent.com/59630667/113062736-e5c98300-91bc-11eb-9493-8428f7a077b9.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 22 AM (1)](https://user-images.githubusercontent.com/59630667/113062737-e6621980-91bc-11eb-95a6-412391bc0f39.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 22 AM](https://user-images.githubusercontent.com/59630667/113062738-e6621980-91bc-11eb-9b68-ba91e8ddd2e4.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 21 AM (2)](https://user-images.githubusercontent.com/59630667/113062739-e6fab000-91bc-11eb-9579-817de03cec1e.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 21 AM (1)](https://user-images.githubusercontent.com/59630667/113062744-e6fab000-91bc-11eb-8701-bf2883f14505.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 21 AM](https://user-images.githubusercontent.com/59630667/113062747-e7934680-91bc-11eb-9779-8fae6c23a83a.jpeg)
-![WhatsApp Image 2021-03-31 at 12 40 20 AM](https://user-images.githubusercontent.com/59630667/113062750-e82bdd00-91bc-11eb-80fa-a08cacd17a66.jpeg)
-
 
 ## Dependencies
 Flutter

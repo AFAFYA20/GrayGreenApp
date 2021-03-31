@@ -23,6 +23,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  bool isFollowing = false;
   final String currentUserId = currentUser?.id;
   bool Loading = false;
   int postCount = 0;
@@ -33,16 +34,48 @@ class _ProfileState extends State<Profile> {
   void initState() {
     getProfilePosts(currentUser);
   }
+    logout() {
+    googleSignIn.signOut();
+  }
 
   buildProfileButton(currentUser) {
     //If you're vewing your own profile - should show the edit profile button
     bool isProfileOwner = currentUser.id == currentUser.id;
     if (isProfileOwner) {
-      return buildButton(
-        text: "Edit Profile",
-     //   performFunction: editUserProfile(currentUser),
+      return
+      Container(
+       
+    //   buildButton(
+    //     text: "Edit Profile",
+    //  //   performFunction: editUserProfile(currentUser),
+    //   );
+      child:
+      buildButton(
+        text: "Logout",
+      performFunction:logout,
+      )
       );
     }
+    else if (isFollowing){
+      return buildButton(
+        text :"Unfollow", 
+        performFunction : handleUnfollowUser, );
+
+    } 
+    else if (!isFollowing){
+      return buildButton(
+        text: "Follow",
+        performFunction :handleFollowUser,
+      );
+
+    }
+     
+  }
+  handleFollowUser(){
+
+  }
+  handleUnfollowUser(){
+
   }
 
   Container buildButton({String text, Function performFunction}) {
@@ -56,17 +89,17 @@ class _ProfileState extends State<Profile> {
           child: Text(
             text,
             style: TextStyle(
-              color: Colors.white,
+              color:isFollowing? Colors.black: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: Colors.blue,
+            color: isFollowing? Colors.white: Colors.blue,
             border: Border.all(
               color: Colors.blue,
             ),
-            borderRadius: BorderRadius.circular(6.0),
+            borderRadius: isFollowing? Colors.grey: BorderRadius.circular(6.0),
           ),
         ),
       ),

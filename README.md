@@ -1,8 +1,8 @@
 ## Gray/Green
 Gray/Green is a mobile-based application written in Flutter that enables users to publish a case of the polluted place they see with specifiying the 
-- city.
-- location.
-- time.
+- City.
+- Location.
+- Time.
 - Day.
 - And publish the case.
 After publishing the case in the application, users can voluntarily participate cleaning the specified place according to their city. The user can publish a case or volunteer in one of the cases.

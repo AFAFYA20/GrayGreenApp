@@ -10,6 +10,7 @@ After publishing the case in the application, users can voluntarily participate 
 
 ## Demo
 
+https://www.youtube.com/watch?v=H3SbQPCBpFk
 
 ## Features
 - Custom photo feed based on who you follow (using firebase cloud functions).
@@ -20,7 +21,6 @@ After publishing the case in the application, users can voluntarily participate 
 - Profile Page.
 - Activity Feed showing recent enrolls in the cases / (not finished yet).
 
-## Screenshots
 
 
 ## Dependencies
